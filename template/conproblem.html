@@ -1,33 +1,32 @@
-{% extends "ojbase.html" %}
+{% extends "conbase.html" %}
 {% block title %}NEU django OJ{% endblock %}
 {% block middle %}
 <center>
-	<h2>{{problem.title}}</h2><br>
-	time:<b>{{problem.timelimit}}second</b> memory:<b>{{problem.memorylimit}}KB</b><br>
+	<h2>{{problem.probid.title}}</h2><br>
+	time:<b>{{problem.probid.timelimit}}second</b> memory:<b>{{problem.probid.memorylimit}}KB</b><br>
+	AC:<b>{{problem.AC}}</b> WA:<b>{{problem.WA}}</b> TLE:<b>{{problem.TLE}}</b> MLE:<b>{{problem.MLE}}</b> CE:<b>{{problem.CE}}</b> RE:<b>{{problem.RE}}</b> PE:<b>{{problem.PE}}</b> Total Submit:<b>{{problem.submit}}</b>
 </center>
 describe:<br>
-{{problem.text}}
+{{problem.probid.text}}
 <br>
 <br>
 input:<br>
-{{problem.indescribe}}<br><br>
+{{problem.probid.indescribe}}<br><br>
 output:<br>
-{{problem.outdescribe}}<br><br>
+{{problem.probid.outdescribe}}<br><br>
 samplein:<br>
-{{problem.samplein}}<br><br>
+{{problem.probid.samplein}}<br><br>
 sampleout:<br>
-{{problem.sampleout}}<br><br>
+{{problem.probid.sampleout}}<br><br>
 hint:<br>
-{{problem.hint}}<br><br>
+{{problem.probid.hint}}<br><br>
 source:<br>
-{{problem.source}}<br><br>
+{{problem.probid.source}}<br><br>
 <form method=post enctype=multipart/form-data action=upload/ >
 	<input type=file name=file >
 	<input type=submit value=Submit>
 </form>
 <a href=submit >submit</a>
-<a href=/bbs/{{problem.id}} >forum</a>
-<a href=statistics >statisticts</a>
 <br>
 <br>
 {% endblock %}

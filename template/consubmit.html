@@ -1,0 +1,15 @@
+{% extends "conbase.html" %}
+{% block title %}NEU django OJ{% endblock %}
+{% block middle %}
+<form method=post action=""  align=center >
+	<select name=lang >
+	<option name=G++ >G++</option>
+	<option name=GCC >GCC</option>
+	<option name=JAVA >JAVA</option>
+</select>
+<br>
+	<textarea name=source rows=35 cols=80 /></textarea><br>
+	<input type=submit value=Submit>
+	<input type=reset value=Reset>
+</form>
+{% endblock %}
