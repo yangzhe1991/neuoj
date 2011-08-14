@@ -1,0 +1,55 @@
+{% extends "ojbase.html" %}
+{% block title %}NEU django OJ{% endblock %}
+{% block middle %}
+<form method=get align=center >
+	username:<input type=text name=user style="width:100" >
+	problemID:<input type=text name=problem style="width:100" >
+	runid<input type=text name=runid style="width:100" >
+	<input type=submit value=GO>
+</form>
+<table width=100%>
+	<tr>
+		<td width=10% >
+			ID
+		</td>
+		<td width=10% >
+			username
+		</td>
+		<td width=10% >
+			problem ID
+		</td>
+		<td width=20% >
+			result
+		</td>
+		<td width=10% >
+			memory
+		</td>
+		<td width=10% >
+			time
+		</td>
+		<td width=10% >
+			language
+		</td>
+		<td width=10% >
+			code length
+		</td>
+		<td width=10% >
+			submit time
+		</td>
+	</tr>
+		{% for s in status %}
+		<tr>
+			<td>{{s.id}}</td>
+			<td>{{s.user.username}}</td>
+			<td>{{s.problem.id}}</td>
+			<td>{{s.result}}</td>
+			<td>{{s.memory}}</td>
+			<td>{{s.time}}</td>
+			<td>{{s.time}}</td>
+			<td>{{s.time}}</td>
+			<td>{{s.create|date:"Y-m-d H:i:s"}}</td>
+		</tr>
+{% endfor %}
+</table>
+{% endblock %}
+

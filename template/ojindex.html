@@ -1,0 +1,9 @@
+{% extends "ojbase.html" %}
+{% block title %}NEU django OJ{% endblock %}
+{% block middle %}
+{% for new in news %}
+{{new.title}}<br>
+{{new.text}}<br>
+{{new.time}}
+{% endfor %}
+{% endblock %}

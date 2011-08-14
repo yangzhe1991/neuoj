@@ -1,0 +1,19 @@
+{% extends "conbase.html" %}
+{% block middle %}
+<center>
+	<h2>{{contest.title}}</h2>	
+	{{contest.start}}||{{contest.end}}<br>
+	now:{{time}}
+<table width=600>
+		<tr>
+			<td width=20%>Solved</td>
+			<td width=60%>Title</td>
+			<td width=20%>Solved/Submitions</td>
+		</tr>
+		<tr>
+		{% for problem in problems %}
+		{% endfor %}
+		</tr>
+</table>
+</center>
+{% endblock %}

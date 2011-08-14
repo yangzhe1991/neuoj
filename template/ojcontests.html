@@ -1,0 +1,7 @@
+{% extends "ojbase.html" %}
+{% block title %}NEU django OJ{% endblock %}
+{% block middle %}
+{% for contest in contests %}
+<li><a href="/contest/{{contest.id}}" >{{contest.title}}</a>||start:{{contest.start|date:"Y-m-d H:i:s"}}|end:{{contest.end|date:"Y-m-d H:i:s"}}|owner:{{contest.admin.username}}||{% ifequal contest.isPublic 0 %}Public{% else %}{% ifequal contest.isPublic 1 %}password{% else %}private{% endifequal %}{% endifequal %}</li>
+{% endfor %}
+{% endblock %}

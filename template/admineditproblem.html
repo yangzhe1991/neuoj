@@ -1,0 +1,17 @@
+{% extends "adminbase.html" %}
+{% block title %}NEU django OJ{% endblock %}
+{% block middle %}
+<form action="" method=post >
+	title <input type=text name=title value={{problem.title}} ><br>
+	time<input type=text name=time value=1 value={{problem.timelimit}} >second<br>
+	memory<input type=text name=memory value=64000 {{problem.memorylimit}}>KB<br>
+	describe<br><textarea rows=30 cols=80 name=text >{{problem.text}}</textarea><br>
+	input<br><textarea rows=10 cols=80 name=input >{{problem.indescribe}}</textarea><br>
+	output<br><textarea rows=10 cols=80 name=output >{{problem.outdescribe}}</textarea><br>
+	samplein<br><textarea rows=20 cols=80 name=samplein >{{problem.samplein}}</textarea><br>
+	sampleout<br><textarea rows=20 cols=80 name=sampleout >{{problem.sampleout}}</textarea><br>
+	hint<br><textarea rows=10 cols=80 name=hint >{{problem.hint}}</textarea><br>
+	source<br><textarea rows=5 cols=80 name=hint >{{problem.source}}</textarea><br>
+	<input type=submit>
+</form>
+{% endblock %}

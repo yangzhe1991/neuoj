@@ -1,0 +1,52 @@
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8"> 
+		<title>{% block title %}{% endblock %}</title>
+	</head>
+	<body>
+		<table align=center width=100%>
+			<tr>
+				<td width=20% ><a href=bbs >Q&A</a></td>
+				<td width=20% ><a href=/contest/{{contest.id}} >PROBLEMS</a></td>
+				<td width=20% ><a href=/contest/{{contest.id}}/ranklist >RANKLIST</a></td>
+				<td width=20% ><a href=/contest/{{contest.id}}/status >SUBMITIONS</a></td>
+				<td width=20% ><a href=/contest/{{contest.id}}/print/ >PRINT</a></td>
+			</tr>
+		</table>
+		{% if contestlogin %}
+		{% if needpassword %}
+		<form method=post action=passwd/ align=center>
+			<input type=password>
+			<input type=submit>
+			<input type=reset>
+		</form>
+		{% else %}
+		{% block middle %}
+		{% endblock %}
+		{% endif %}
+		{% else %}
+		{% ifequal contest.isPublic 2 %}
+		<form method=post action=contestlogin/ align=center>
+			username:<input type=username><br>
+			password:<input type=password><br>
+			<input type=submit>
+			<input type=reset>
+		</form>
+		{% else %}
+		<form method=post action=login/ align=center>
+			username:<input type=username><br>
+			password:<input type=password><br>
+			<input type=submit>
+			<input type=reset>
+		</form>
+		{% endifequal %}
+		{% endif %}
+		this is footer<br>
+		<a href=/ >HOME</a><br>
+		<a href=/userguide >USER GUIDE</a><br>
+
+
+	</body>
+
+
+</html>

@@ -1,0 +1,27 @@
+<form method=post >
+	title:<br>
+	<input type=input name=title><br>
+	<br>
+	start <br>
+	<input type=input name=year style="width:50" value={{year}} >-
+	<input type=input name=month style="width:30" value={{mon}} >-
+	<input type=input name=day style="width:30" value={{day}} > &nbsp&nbsp&nbsp
+	<input type=input name=hour style="width:30" value={{hour}} >:
+	<input type=input name=minutes style="width:30" value={{min}} >
+	<br>
+	<br>
+	duration:
+	<input type=input name=duringhour style="width:30" value=5 >hours
+	<input type=input name=duringminutes style="width:30" value=0 >minutes
+	<br>
+	<br>
+	type:
+	<select name=type>
+		<option selected value=0>public</option>
+		<option value=1>need password</option>
+		<option value=2>private</option>
+	</select>
+	<br>
+	password if need<input type=password name=password ><br>
+	<input type=submit>
+</form>

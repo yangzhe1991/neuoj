@@ -1,0 +1,33 @@
+{% extends "ojbase.html" %}
+{% block title %}NEU django OJ{% endblock %}
+{% block middle %}
+<center>
+	<h2>{{problem.title}}</h2><br>
+	time:<b>{{problem.timelimit}}second</b> memory:<b>{{problem.memorylimit}}KB</b><br>
+</center>
+describe:<br>
+{{problem.text}}
+<br>
+<br>
+input:<br>
+{{problem.indescribe}}<br><br>
+output:<br>
+{{problem.outdescribe}}<br><br>
+samplein:<br>
+{{problem.samplein}}<br><br>
+sampleout:<br>
+{{problem.sampleout}}<br><br>
+hint:<br>
+{{problem.hint}}<br><br>
+source:<br>
+{{problem.source}}<br><br>
+<form method=post enctype=multipart/form-data action=upload/ >
+	<input type=file name=file >
+	<input type=submit value=Submit>
+</form>
+<a href=submit >submit</a>
+<a href=/bbs/{{problem.id}} >forum</a>
+<a href=statistics >statisticts</a>
+<br>
+<br>
+{% endblock %}

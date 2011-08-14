@@ -1,0 +1,43 @@
+{% extends "ojbase.html" %}
+{% block title %}NEU django OJ{% endblock %}
+{% block middle %}
+<form method=get align=center >
+	<input type=text name=rankstart >
+	<input type=submit>
+</form>
+<table width=100%>
+	<tr>
+		<td width=10% >
+			rank
+		</td>
+		<td width=15% >
+			username
+		</td>
+		<td width=15% >
+			nickname
+		</td>
+		<td width=15% >
+			school
+		</td>
+		<td width=15% >
+			AC
+		</td>
+		<td width=15% >
+			submit
+		</td>
+		<td width=15% >
+			ratio
+		</td>
+	</tr>
+	<tr>
+{% for user in users %}
+{% for out in user %}
+<td>
+	{{out}}
+</td>
+{% endfor %}
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
+

@@ -1,0 +1,56 @@
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8"> 
+		<title>{% block title %}{% endblock %}</title>
+	</head>
+	<body>
+		<table align=center width=100%>
+			<tr>
+				<td width=20% >About OJ</td>
+				<td width=20% >Problems</td>
+				<td width=20% >Rank</td>
+				<td width=20% >Contests</td>
+				<td width=20% >User</td>
+			</tr>
+			<tr>
+				<td>
+					<a href=/ >HOME</a><br>
+					<a href=/bbs >BBS</a><br>
+				</td>
+				<td>
+					<a href=/problems >Problem Lists</a><br>
+					<a href=/status >Submitions</a><br>
+				</td>
+				<td>
+					<a href=/rank >Rank</a><br>
+				</td>
+				<td>
+					<a href=/contest >Contests</a><br>
+				</td>
+				<td>
+					{% if login %}
+					{{login.username}}<br>
+					{{login.AC}}/{{login.submit}}<br>
+					{% if login.isManager %}
+					<a href=/admin >Admin</a>
+					{% endif %}
+					<a href=/logout/ >logout</a>
+					{% else %}
+					<form method=post action=/login/ >
+						<input type=text name=username style="width:100"><br>
+						<input type=password name=password style="width:100"><br>
+						<input type=submit name=submit value=Submit>
+						<input type=reset name=reset value=Reset><br>
+					</form>
+					{% endif %}
+				</td>
+			</tr>
+		</table>
+		{% block middle %}
+		{% endblock %}
+		this is footer<br>
+
+	</body>
+
+
+</html>

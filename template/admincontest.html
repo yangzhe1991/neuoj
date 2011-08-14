@@ -1,0 +1,10 @@
+{% extends "adminbase.html" %}
+{% block title %}NEU django OJ{% endblock %}
+{% block middle %}
+{% for p in problems %}
+id:{{p.probid.id}}
+{% endfor %}
+
+<br><br>
+<a href=addproblem >addproblem</a>
+{% endblock %}

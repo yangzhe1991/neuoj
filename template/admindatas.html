@@ -1,0 +1,10 @@
+{% extends "adminbase.html" %}
+{% block title %}NEU django OJ{% endblock %}
+{% block middle %}
+datas for p{{problem.id}}<br>
+{% for data in datas %}
+{{forloop.counter}}||id:{{data.id}}||<a href=/admin/data/{{data.id}}/ >view</a>||<a href=/admin/data/{{data.id}}/edit >edit</a><br>
+{% endfor %}
+<br><br><br>
+<a href=add/ >adddata</a>
+{% endblock %}

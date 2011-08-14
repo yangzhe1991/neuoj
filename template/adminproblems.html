@@ -1,0 +1,10 @@
+{% extends "adminbase.html" %}
+{% block title %}NEU django OJ{% endblock %}
+{% block middle %}
+<a href=/admin/addproblem/ >addproblem</a>
+{% for problem in problems %}
+<li>{{problem.id}}<a href=/admin/problem/{{problem.id}} >{{problem.title}}</a>||
+<a href="/admin/problem/{{problem.id}}/edit/?visible={% if problem.visible %}false{% else %}true{% endif %}">{% if problem.visible %}click to private{% else %}click to public{% endif %}</a>||<a href="/admin/problem/{{problem.id}}/edit/">edit</a>||<a href="/admin/problem/{{problem.id}}/data/">datas</a>
+</li>
+{% endfor %}
+{% endblock %}

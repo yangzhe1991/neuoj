@@ -1,0 +1,9 @@
+{% extends "ojbase.html" %}
+{% block title %}NEU django OJ{% endblock %}
+{% block middle %}
+{% for problem in problems %}
+{% if problem.visible %}
+<li>{{problem.id}}<a href=/problem/{{problem.id}} >{{problem.title}}</a>||{{problem.AC}}/{{problem.submit}}</li>
+{% endif %}
+{% endfor %}
+{% endblock %}
