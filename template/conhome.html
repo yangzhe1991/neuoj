@@ -7,13 +7,18 @@
 <table width=600>
 		<tr>
 			<td width=20%>Solved</td>
-			<td width=60%>Title</td>
+			<td width=20%>ProblemID</td>
+			<td width=40%>Title</td>
 			<td width=20%>Solved/Submitions</td>
 		</tr>
-		<tr>
 		{% for problem in problems %}
-		{% endfor %}
+		<tr>
+		<td>{{problem.solved}}</td>
+		<td>{{problem.num}}</td>
+		<td><a href={{problem.id}}>{{problem.title}}</a></td>
+		<td>{{problem.AC}}/{{problem.submit}}</td>
 		</tr>
+		{% endfor %}
 </table>
 </center>
 {% endblock %}
