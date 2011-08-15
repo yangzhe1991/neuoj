@@ -1,5 +1,7 @@
 #!/usr/bin/python
 import shlex,subprocess,os,time
+import memcache
+import MySQLdb
 
 def run(source,lang,indata,outdata,timelimit,memlimit):
 	#print source
@@ -49,21 +51,26 @@ def run(source,lang,indata,outdata,timelimit,memlimit):
 			fd1=file('out.txt','r')
 			fd2=file('err.txt','r')
 			if p.poll()!=0:
-				return ('RE',fd2.read(),p.poll())
+				return ('RE',0,0)
 			out=fd1.read()
+			outdata=str(outdata).replace('\r','')
+			while out[-1]=='\n':
+				out=out[:-1]
+			while outdata[-1]=='\n':
+				outdata=outdata[:-1]
 			if out==outdata:
 				return ('AC',tt,mm)
 			else:
 				out=out.replace('\n','')
 				outdata=outdata.replace('\n','')
 				if out==outdata:
-					return ('PE')
-				return ('WA',outdata,out)
+					return ('PE',tt,mm)
+				return ('WA',tt,mm)
 		tt=time.time()-start
 		if tt>timelimit:
 			#os.kill(p.pid,9)
 			p.kill()
-			return ('TLE',tt)
+			return ('TLE',tt,mm)
 		#print s
 		if s.find('RSS')<0:
 			continue
@@ -73,7 +80,60 @@ def run(source,lang,indata,outdata,timelimit,memlimit):
 		if mm>memlimit:
 			#os.kill(pid,9)
 			p.kill()
-			return ('MLE',mm)
+			return ('MLE',tt,mm)
 
+def submit(db,c,runid,result):
+	if c:
+		table='contest_contestsubmition'
+	else:
+		table='oj_submition'
+	if result[0]!='CE':
+		sql='update '+table+' set result=\''+result[0]+'\' , time='+str(int(result[1]*1000))+' ,  memory='+str(result[2])+' where id='+str(runid)
+	else:
+		sql='update '+table+' set result=\'CE\' , detail=\''+str(result[1])+'\' where id='+str(runid)
+	print sql
+	db.execute(sql)
+
+	
 
 if __name__=='__main__':
+	mc=memcache.Client(['127.0.0.1:11211'])
+	while True:
+		conn=MySQLdb.connect(host='localhost',user='root',passwd='yangzhe1991',db='neuoj')
+		cursor=conn.cursor()
+		if mc.get('pendings')!=None and len(mc.get('pendings'))>0:
+			temp=mc.get('pendings')
+			runid,c,source,lang,datas,timelimit,memlimit=temp.pop(0)
+			mc.set('pendings',temp)
+			print runid
+			result=('AC',0,0)
+			PE=False
+			for data in datas:
+				re=run(source,lang,data[0],data[1],timelimit,memlimit)
+				if re[0]=='CE':
+					result=('CE',re[1])
+					break
+				elif re[0]=='RE':
+					result=re
+					break
+				elif re[0]=='WA':
+					result=re
+					break
+				elif re[0]=='TLE':
+					result=re
+					break
+				elif re[0]=='MLE':
+					result=re
+					break
+				elif re[0]=='PE':
+					PE=True
+			print re
+			if result!='AC':
+				submit(cursor,c,runid,result)
+			elif PE:
+				submit(cursor,c,runid,('PE',re[1],re[2]))
+			else:
+				submit(cursor,c,runid,re)
+		conn.commit()
+		cursor.close()
+		conn.close()

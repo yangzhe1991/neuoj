@@ -185,9 +185,7 @@ def rank(request,cid):
 	cp=ContestProblem.objects.filter(contest=c)
 	pid={}
 	for i,p in enumerate(cp):
-		pid[]
-
+		pass
 	cs=ContestSubmition.objects.filter(contest=c)	
-	for s in cs:
 
 
