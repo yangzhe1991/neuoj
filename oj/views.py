@@ -7,6 +7,7 @@ from django.core.cache import *
 from neuoj.oj.models import *
 from neuoj.contest.models import *
 from datetime import *
+import time
 
 def getheader(request):
 	notice=Notice(text='通知测试')

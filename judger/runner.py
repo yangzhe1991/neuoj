@@ -77,13 +77,3 @@ def run(source,lang,indata,outdata,timelimit,memlimit):
 
 
 if __name__=='__main__':
-	ff=file('source.c','r')
-	s=ff.read()
-	lang='GCC'
-	timelimit=1.0
-	memlimit=64000
-	fin=file('input.txt','r')
-	sin=fin.read()
-	fout=file('output.txt','r')
-	sout=fout.read()
-	print run(s,lang,sin,sout,timelimit,memlimit)

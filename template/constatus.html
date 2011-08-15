@@ -1,18 +1,12 @@
-{% extends "ojbase.html" %}
+{% extends "conbase.html" %}
 {% block title %}NEU django OJ{% endblock %}
 {% block middle %}
-<form method=get align=center >
-	username:<input type=text name=user style="width:100" >
-	problemID:<input type=text name=problem style="width:100" >
-	runid<input type=text name=runid style="width:100" >
-	<input type=submit value=GO>
-</form>
 <table width=100%>
 	<tr>
 		<td width=10% >
 			ID
 		</td>
-		<td width=10% >
+		<td width=12% >
 			username
 		</td>
 		<td width=10% >
@@ -27,13 +21,13 @@
 		<td width=10% >
 			time
 		</td>
-		<td width=10% >
+		<td width=6% >
 			language
 		</td>
-		<td width=10% >
+		<td width=6% >
 			code length
 		</td>
-		<td width=10% >
+		<td width=16% >
 			submit time
 		</td>
 	</tr>
@@ -45,8 +39,8 @@
 			<td>{{s.result}}</td>
 			<td>{{s.memory}}</td>
 			<td>{{s.time}}</td>
-			<td>{{s.time}}</td>
-			<td>{{s.time}}</td>
+			<td>{{s.lang}}</td>
+			<td>{{s.sourcelong}}</td>
 			<td>{{s.create|date:"Y-m-d H:i:s"}}</td>
 		</tr>
 {% endfor %}

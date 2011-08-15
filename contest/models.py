@@ -30,7 +30,7 @@ class ContestProblem(models.Model):
 	submit=models.IntegerField(default=0)
 
 class ContestSubmition(models.Model):
-	user=models.ForeignKey('oj.User')
+	user=models.ForeignKey('ContestUser')
 	problem=models.ForeignKey('ContestProblem')
 	source=models.TextField()
 	result=models.TextField(default='Pending')
@@ -40,4 +40,11 @@ class ContestSubmition(models.Model):
 	lang=models.CharField(max_length=10)
 	detail=models.TextField(null=True,blank=True)
 	sourcelong=models.IntegerField()
+
+class Rank(models.Model):
+	contest=models.ForeignKey('Contest')
+	problem=models.ForeignKey('ContestProblem')
+	user=models.ForeignKey('ContestUser')
+	errortime=models.IntegerField(default=0)
+	ACtime=models.IntegerField(null=True)
 
