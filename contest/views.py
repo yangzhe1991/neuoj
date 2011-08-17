@@ -132,6 +132,20 @@ def submit(request,cid,pid):
 		p.save()
 		s=ContestSubmition(user=context['contestlogin'],problem=p,source=request.POST['source'],lang=request.POST['lang'],sourcelong=len(request.POST['source']))
 		s.save()
+
+		ds=Data.objects.filter(problem=p[0])
+		datas=[]
+		for d in ds:
+			datas.append((d.din,d.dout))
+		put=(s.id,False,s.source,s.lang,datas,p[0].timelimit,p[0].memorylimit)
+		mc=memcache.Client(['127.0.0.1:11211'])
+		if mc.get('pendings')==None:
+			mc.set('pendings',[put])
+		else:
+			temp=mc.get('pendings')
+			temp.append(put)
+			mc.set('pendings',temp)
+
 		
 		return HttpResponseRedirect('/contest/%d/status/'% cid)
 	return render_to_response('consubmit.html',context)

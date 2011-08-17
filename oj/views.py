@@ -161,6 +161,20 @@ def upload(request,num):
 		u=User.objects.filter(username=request.session['login'].username)
 		u.update(submit=u[0].submit+1)
 		request.session['login']=u[0]
+
+		ds=Data.objects.filter(problem=p[0])
+		datas=[]
+		for d in ds:
+			datas.append((d.din,d.dout))
+		put=(s.id,False,s.source,s.lang,datas,p[0].timelimit,p[0].memorylimit)
+		mc=memcache.Client(['127.0.0.1:11211'])
+		if mc.get('pendings')==None:
+			mc.set('pendings',[put])
+		else:
+			temp=mc.get('pendings')
+			temp.append(put)
+			mc.set('pendings',temp)
+
 		return HttpResponseRedirect('/status/')
 	return render_to_response('ojsubmit.html',context)
 

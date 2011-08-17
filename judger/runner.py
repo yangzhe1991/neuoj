@@ -83,24 +83,15 @@ def run(source,lang,indata,outdata,timelimit,memlimit):
 			return ('MLE',tt,mm)
 
 def submit(db,c,runid,result):
-	if c:
-		table='contest_contestsubmition'
-	else:
-		table='oj_submition'
-	if result[0]!='CE':
-		sql='update '+table+' set result=\''+result[0]+'\' , time='+str(int(result[1]*1000))+' ,  memory='+str(result[2])+' where id='+str(runid)
-	else:
-		sql='update '+table+' set result=\'CE\' , detail=\''+str(result[1])+'\' where id='+str(runid)
-	print sql
-	db.execute(sql)
+	if mc.get('results')!=None and len(mc.get('pendings'))>0:
 
-	
 
 if __name__=='__main__':
 	mc=memcache.Client(['127.0.0.1:11211'])
 	while True:
 		conn=MySQLdb.connect(host='localhost',user='root',passwd='yangzhe1991',db='neuoj')
 		cursor=conn.cursor()
+
 		if mc.get('pendings')!=None and len(mc.get('pendings'))>0:
 			temp=mc.get('pendings')
 			runid,c,source,lang,datas,timelimit,memlimit=temp.pop(0)
