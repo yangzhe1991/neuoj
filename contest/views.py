@@ -234,4 +234,19 @@ def rank(request,cid):
 		pass
 	cs=ContestSubmition.objects.filter(contest=c)	
 
+def source(request,cid,sid):
+	cid=int(cid)
+	c=Contest.objects.get(id=cid)
+	context=getheader(request,c)
+	sid=int(sid)
+	s=ContestSubmition.objects.filter(id=sid)
+	if not 'contestlogin' in context:
+		error="please login first"
+		return HttpResponse(error)
+	if len(s)==0 or s[0].user.username!=context['contestlogin'].username:
+		error="you are not the owner"
+		return HttpResponse(error)
+	s=s[0]
+	return render_to_response('viewcode.html',dict(context,**{'submit':s}))
+	
 
