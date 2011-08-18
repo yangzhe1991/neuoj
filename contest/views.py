@@ -8,7 +8,7 @@ from django.core.cache import *
 from django.db.models import F
 from neuoj.contest.models import *
 from neuoj.oj.models import *
-import time
+import time,memcache
 
 def getheader(request,con):
 	context={}
@@ -133,11 +133,11 @@ def submit(request,cid,pid):
 		s=ContestSubmition(user=context['contestlogin'],problem=p,source=request.POST['source'],lang=request.POST['lang'],sourcelong=len(request.POST['source']))
 		s.save()
 
-		ds=Data.objects.filter(problem=p[0])
+		ds=Data.objects.filter(problem=p)
 		datas=[]
 		for d in ds:
 			datas.append((d.din,d.dout))
-		put=(s.id,False,s.source,s.lang,datas,p[0].timelimit,p[0].memorylimit)
+		put=(s.id,True,s.source,s.lang,datas,p.probid.timelimit,p.probid.memorylimit)
 		mc=memcache.Client(['127.0.0.1:11211'])
 		if mc.get('pendings')==None:
 			mc.set('pendings',[put])
@@ -181,10 +181,42 @@ def upload(request,cid,pid):
 		sour=fd.read()
 		s=ContestSubmition(user=context['contestlogin'],problem=p,source=sour,lang=la,sourcelong=len(sour))
 		s.save()
+		
+		ds=Data.objects.filter(problem=p[0])
+		datas=[]
+		for d in ds:
+			datas.append((d.din,d.dout))
+		put=(s.id,True,s.source,s.lang,datas,p[0].timelimit,p[0].memorylimit)
+		mc=memcache.Client(['127.0.0.1:11211'])
+		if mc.get('pendings')==None:
+			mc.set('pendings',[put])
+		else:
+			temp=mc.get('pendings')
+			temp.append(put)
+			mc.set('pendings',temp)
+
 		return HttpResponseRedirect('/contest/%d/status/'%cid)
 	return render_to_response('consubmit.html',context)
 
 def status(request,cid):
+	mc=memcache.Client(['127.0.0.1:11211'])
+	if mc.get('results')!=None and len(mc.get('results'))>0:
+		ss=mc.get('results')
+		mc.delete('results')
+		for s in ss:
+			if s[0]:
+				submit=ContestSubmition.objects.get(id=s[1])
+			else:
+				submit=Submition.objects.get(id=s[1])
+			submit.result=s[2][0]
+			if submit.result=='CE':
+				submit.detail=s[2][1]
+				submit.time=submit.memory=0
+			else:
+				submit.time=s[2][1]
+				submit.memory=s[2][2]
+			submit.save()
+
 	cid=int(cid)
 	c=Contest.objects.get(id=cid)
 	context=getheader(request,c)

@@ -59,6 +59,24 @@ def problem(request,num):
 		raise Http404
 
 def status(request):
+	mc=memcache.Client(['127.0.0.1:11211'])
+	if mc.get('results')!=None and len(mc.get('results'))>0:
+		ss=mc.get('results')
+		mc.delete('results')
+		for s in ss:
+			if s[0]:
+				submit=ContestSubmition.objects.get(id=s[1])
+			else:
+				submit=Submition.objects.get(id=s[1])
+			submit.result=s[2][0]
+			if submit.result=='CE':
+				submit.detail=s[2][1]
+				submit.time=submit.memory=0
+			else:
+				submit.time=s[2][1]
+				submit.memory=s[2][2]
+			submit.save()
+
 	context=getheader(request)
 	s=Submition.objects.order_by('-create')
 	p=1

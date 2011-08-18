@@ -3,6 +3,8 @@ import shlex,subprocess,os,time
 import memcache
 import MySQLdb
 
+global mc
+
 def run(source,lang,indata,outdata,timelimit,memlimit):
 	#print source
 	os.chdir('/home/godfather/judge/')
@@ -54,6 +56,8 @@ def run(source,lang,indata,outdata,timelimit,memlimit):
 				return ('RE',0,0)
 			out=fd1.read()
 			outdata=str(outdata).replace('\r','')
+			if len(out)==0:
+				return ('WA',tt,mm)
 			while out[-1]=='\n':
 				out=out[:-1]
 			while outdata[-1]=='\n':
@@ -84,8 +88,13 @@ def run(source,lang,indata,outdata,timelimit,memlimit):
 			p.kill()
 			return ('MLE',tt,mm)
 
-def submit(db,c,runid,result):
-	if mc.get('results')!=None and len(mc.get('pendings'))>0:
+def submit(c,runid,result):
+	if mc.get('results')!=None and len(mc.get('result'))>0:
+		mcs=mc.get('results')
+	else:
+		mcs=[]
+	mcs.append((c,runid,result))
+	mc.set('results',mcs)
 
 
 if __name__=='__main__':
@@ -122,11 +131,11 @@ if __name__=='__main__':
 					PE=True
 			print re
 			if result!='AC':
-				submit(cursor,c,runid,result)
+				submit(c,runid,result)
 			elif PE:
-				submit(cursor,c,runid,('PE',re[1],re[2]))
+				submit(c,runid,('PE',re[1],re[2]))
 			else:
-				submit(cursor,c,runid,re)
+				submit(c,runid,re)
 		conn.commit()
 		cursor.close()
 		conn.close()
