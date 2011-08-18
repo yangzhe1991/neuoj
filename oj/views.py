@@ -202,12 +202,12 @@ def source(request,num):
 	s=Submition.objects.filter(id=sid)
 	if not 'login' in request.session:
 		error="please login first"
-		return render_to_response('ojsource.html',dict(context,**{'error':error}))
+		return HttpResponse(error)
 	if len(s)==0 or s[0].user.username!=request.session['login'].username:
 		error="you are not the owner"
-		return render_to_response('ojsource.html',dict(context,**{'error':error}))
+		return HttpResponse(error)
 	s=s[0]
-	return render_to_response('ojsource.html',dict(context,**{'submit':s}))
+	return render_to_response('viewcode.html',dict(context,**{'submit':s}))
 	
 
 def bbs(request,num):

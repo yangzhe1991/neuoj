@@ -37,19 +37,19 @@
 			submit time
 		</td>
 	</tr>
-		{% for s in status %}
-		<tr>
-			<td>{{s.id}}</td>
-			<td>{{s.user.username}}</td>
-			<td>{{s.problem.id}}</td>
-			<td>{{s.result}}</td>
-			<td>{{s.memory}}</td>
-			<td>{{s.time}}</td>
-			<td>{{s.lang}}</td>
-			<td>{{s.sourcelong}}</td>
-			<td>{{s.create|date:"Y-m-d H:i:s"}}</td>
-		</tr>
-{% endfor %}
+	{% for s in status %}
+	<tr>
+		<td>{{s.id}}</td>
+		<td>{{s.user.username}}</td>
+		<td>{{s.problem.id}}</td>
+		<td>{{s.result}}</td>
+		<td>{{s.memory}}</td>
+		<td>{{s.time}}</td>
+		<td><a href=/viewcode/{{s.id}}/ >{{s.lang}}</a></td>
+		<td>{{s.sourcelong}}</td>
+		<td>{{s.create|date:"Y-m-d H:i:s"}}</td>
+	</tr>
+	{% endfor %}
 </table>
 {% endblock %}
 
