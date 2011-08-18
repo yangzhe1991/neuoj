@@ -62,7 +62,9 @@ def run(source,lang,indata,outdata,timelimit,memlimit):
 				return ('AC',tt,mm)
 			else:
 				out=out.replace('\n','')
+				out=out.replace(' ','')
 				outdata=outdata.replace('\n','')
+				outdata=outdata.replace(' ','')
 				if out==outdata:
 					return ('PE',tt,mm)
 				return ('WA',tt,mm)
