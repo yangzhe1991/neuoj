@@ -41,10 +41,3 @@ class ContestSubmition(models.Model):
 	detail=models.TextField(null=True,blank=True)
 	sourcelong=models.IntegerField()
 
-class Rank(models.Model):
-	contest=models.ForeignKey('Contest')
-	problem=models.ForeignKey('ContestProblem')
-	user=models.ForeignKey('ContestUser')
-	errortime=models.IntegerField(default=0)
-	ACtime=models.IntegerField(null=True)
-

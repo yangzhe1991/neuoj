@@ -8,7 +8,8 @@ from django.core.cache import *
 from django.db.models import F
 from neuoj.contest.models import *
 from neuoj.oj.models import *
-import time,memcache
+import time,datetime,memcache
+from operator import itemgetter, attrgetter
 
 def getheader(request,con):
 	context={}
@@ -182,11 +183,11 @@ def upload(request,cid,pid):
 		s=ContestSubmition(user=context['contestlogin'],problem=p,source=sour,lang=la,sourcelong=len(sour))
 		s.save()
 		
-		ds=Data.objects.filter(problem=p[0])
+		ds=Data.objects.filter(problem=p.probid)
 		datas=[]
 		for d in ds:
 			datas.append((d.din,d.dout))
-		put=(s.id,True,s.source,s.lang,datas,p[0].timelimit,p[0].memorylimit)
+		put=(s.id,True,s.source,s.lang,datas,p.probid.timelimit,p.probid.memorylimit)
 		mc=memcache.Client(['127.0.0.1:11211'])
 		if mc.get('pendings')==None:
 			mc.set('pendings',[put])
@@ -228,11 +229,45 @@ def status(request,cid):
 def rank(request,cid):
 	cid=int(cid)
 	c=Contest.objects.get(id=cid)
-	cp=ContestProblem.objects.filter(contest=c)
-	pid={}
-	for i,p in enumerate(cp):
-		pass
-	cs=ContestSubmition.objects.filter(contest=c)	
+	cus=ContestUser.objects.filter(contest=c)
+	users={}	
+	cps=ContestProblem.objects.filter(contest=c).order_by('id')
+	csss=ContestSubmition.objects.all()
+	l=[]
+	pdict={}
+	ps=[]
+	for i,p in enumerate(cps):
+		l.append({'problem':0,'result':''})
+		pdict[p]=i
+		ps.append(chr(i+ord('A')))
+
+	for cu in cus:
+		users[cu]=[0,0,l]#(prob,time)
+		css=csss.filter(user=cu).order_by('id')
+		for cs in css:
+			if cs.result=='Pending':
+				continue
+			p=cs.problem
+			if users[cs.user][2][pdict[p]]['result']=='AC':
+				continue
+			if cs.result=='AC':
+				users[cs.user][2][pdict[p]]['result']='AC'
+				users[cs.user][1]+=(cs.create-cs.user.contest.start).seconds/60-users[cs.user][2][pdict[p]]['problem']*20
+				users[cs.user][2][pdict[p]]['problem']=(cs.create-cs.user.contest.start).seconds/60
+				users[cs.user][0]+=1
+			else:
+				users[cs.user][2][pdict[p]]['result']=cs.result
+				users[cs.user][2][pdict[p]]['problem']-=1
+
+	us=sorted(users.items(),key=itemgetter(1))
+	us=sorted(us,key=itemgetter(0),reverse=True)
+	return render_to_response('conrank.html',{'contest':c,'users':us,'problems':ps})
+
+
+
+	
+
+
 
 def source(request,cid,sid):
 	cid=int(cid)
