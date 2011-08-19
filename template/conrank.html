@@ -1,0 +1,51 @@
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8"> 
+		<title>Ranklist</title>
+	</head>
+	<body>
+		<table align=center width=100%>
+			<tr>
+				<td width=20% ><a href=bbs >Q&A</a></td>
+				<td width=20% ><a href=/contest/{{contest.id}} >PROBLEMS</a></td>
+				<td width=20% ><a href=/contest/{{contest.id}}/ranklist >RANKLIST</a></td>
+				<td width=20% ><a href=/contest/{{contest.id}}/status >SUBMITIONS</a></td>
+				<td width=20% ><a href=/contest/{{contest.id}}/print/ >PRINT</a></td>
+			</tr>
+		</table>
+		<table align=center width=100%>
+			<tr>
+				<td width=10%>Rank</td>
+				<td width=10%>Team</td>
+				<td width=5%>Solved</td>
+				<td width=15%>Penalty</td>
+				{% for p in problems %}
+				<td><a href=../{{p}}>Problem {{p}}</a></td>	
+				{% endfor %}
+			</tr>
+			{% for u in users %}
+			<tr>
+			<td>{{forloop.counter}}</td>
+			{% for item in u %}
+			{% ifequal forloop.counter 1 %}
+			<td>{{item.username}}<br>{{item.nickname}}</td>
+			{% else %}
+			{% for i in item %}
+			{% ifequal forloop.counter 3 %}
+				{% for ii in i %}
+				<td>{{ii.problem}}</td>
+				{% endfor %}
+			{% else %}
+			<td>{{i}}</td>
+			{% endifequal %}
+			{% endfor %}
+			{% endifequal %}
+			{% endfor %}
+		</tr>
+			{% endfor %}
+		</table>
+
+	</body>
+
+
+</html>
