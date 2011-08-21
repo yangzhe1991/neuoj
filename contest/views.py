@@ -134,7 +134,7 @@ def submit(request,cid,pid):
 		s=ContestSubmition(user=context['contestlogin'],problem=p,source=request.POST['source'],lang=request.POST['lang'],sourcelong=len(request.POST['source']))
 		s.save()
 
-		ds=Data.objects.filter(problem=p)
+		ds=Data.objects.filter(problem=p.probid)
 		datas=[]
 		for d in ds:
 			datas.append((d.din,d.dout))
@@ -216,6 +216,25 @@ def status(request,cid):
 			else:
 				submit.time=s[2][1]
 				submit.memory=s[2][2]
+			if submit.result=='AC':
+				if not s[0] and	len(Submition.objects.filter(user=submit.user,problem=submit.problem,result='AC'))==0:
+					#raise Http404
+					submit.user.AC+=1
+					submit.user.save()
+				submit.problem.AC+=1
+			elif submit.result=='WA':
+				submit.problem.WA+=1
+			elif submit.result=='TLE':
+				submit.problem.TLE+=1
+			elif submit.result=='MLE':
+				submit.problem.MLE+=1
+			elif submit.result=='RE':
+				submit.problem.RE+=1
+			elif submit.result=='CE':
+				submit.problem.CE+=1
+			elif submit.result=='PE':
+				submit.problem.PE+=1
+			submit.problem.save()
 			submit.save()
 
 	cid=int(cid)
