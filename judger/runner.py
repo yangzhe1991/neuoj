@@ -130,7 +130,7 @@ if __name__=='__main__':
 				elif re[0]=='PE':
 					PE=True
 			print re
-			if result!='AC':
+			if result[0]!='AC':
 				submit(c,runid,result)
 			elif PE:
 				submit(c,runid,('PE',re[1],re[2]))

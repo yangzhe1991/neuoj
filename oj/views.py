@@ -16,7 +16,7 @@ def getheader(request):
 	notice.save()
 	context={'notice':notice}
 	if 'login' in request.session:
-		context['login']=request.session['login']
+		context['login']=User.objects.get(username=request.session['login'].username)
 	context['time']=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
 	return context
 
@@ -63,7 +63,6 @@ def status(request):
 	if mc.get('results')!=None and len(mc.get('results'))>0:
 		ss=mc.get('results')
 		mc.delete('results')
-		submits=Submition.objects.all()
 		for s in ss:
 			if s[0]:
 				submit=ContestSubmition.objects.get(id=s[1])
@@ -76,9 +75,9 @@ def status(request):
 			else:
 				submit.time=s[2][1]
 				submit.memory=s[2][2]
-			submit.save()
 			if submit.result=='AC':
-				if len(submits.filter(user=submit.user,result='AC'))==0:
+				if not s[0] and	len(Submition.objects.filter(user=submit.user,problem=submit.problem,result='AC'))==0:
+					#raise Http404
 					submit.user.AC+=1
 					submit.user.save()
 				submit.problem.AC+=1
@@ -95,6 +94,7 @@ def status(request):
 			elif submit.result=='PE':
 				submit.problem.PE+=1
 			submit.problem.save()
+			submit.save()
 
 	context=getheader(request)
 	s=Submition.objects.order_by('-create')

@@ -67,6 +67,8 @@ def addproblem(request):
 		raise Http404
 
 	p=Problem(title=t1,text=t2,samplein=t3,sampleout=t4,hint=t5,source=t6,timelimit=int(t7),memorylimit=int(t8),indescribe=t9,outdescribe=t10)
+	if len(Problem.objects.all())==0:
+		p.id=1000
 	p.save()
 	return HttpResponseRedirect('/admin/problems/')
 	
