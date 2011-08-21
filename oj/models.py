@@ -1,9 +1,9 @@
 from django.db import models
 
 class User(models.Model):
-	username=models.CharField(max_length=20,primary_key=True)
-	password=models.CharField(max_length=64)
-	nickname=models.CharField(max_length=20,blank=True)
+	username=models.CharField(max_length=50,primary_key=True)
+	password=models.CharField(max_length=100)
+	nickname=models.CharField(max_length=50,blank=True)
 	email=models.EmailField(null=True,blank=True)
 	isManager=models.BooleanField(default=False)
 	birthday=models.DateField(blank=True,null=True)
@@ -67,7 +67,8 @@ class Reply(models.Model):
 	text=models.TextField()
 
 class Logininfo(models.Model):
-	user=models.ForeignKey('User')
+	username=models.CharField(max_length=50)
+	password=models.CharField(max_length=50)
 	ip=models.IPAddressField()
 	time=models.DateTimeField(auto_now_add=True)
 
@@ -77,6 +78,5 @@ class News(models.Model):
 	time=models.DateTimeField(auto_now_add=True)
 
 class Notice(models.Model):
-	text=models.CharField(max_length=40)
+	text=models.CharField(max_length=50)
 	time=models.DateTimeField(auto_now_add=True)
-

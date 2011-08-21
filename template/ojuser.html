@@ -5,44 +5,28 @@
 	<h2>{{user.username}}----{{user.nickname}}</h2>
 	<table width=700>
 		<tr>
-			<td width=15%>Rank</td>
-			<td width=25%>{{rank}}</td>
-			<td>solved problems</td>
+			<td width=20%>Rank</td>
+			<td width=30%>{{rank}}</td>
+			<td width=20%>School</td>
+			<td width=30%>{{user.school}}</td>
 		</tr>
 		<tr>
-			<td>Sloved</td>
-			<td>{{user.AC}}</td>
-			<td>
-				{% for ac in ACs %}
-				{% for a in ac %}
-				{{a}} 
-				{% endfor %}
-				<br>
-				{% endfor %}
-			</td>
+			<td width=20%>Solved</td>
+			<td width=30%>{{user.AC}}</td>
+			<td width=20%>Submit</td>
+			<td width=30%>{{user.submit}}</td>
 		</tr>
 		<tr>
-			<td>Submitions</td>
-			<td>{{user.submit}}</td>
+			<td width=20%>Website</td>
+			<td width=30%>{{user.website}}</td>
+			<td width=20%>Email</td>
+			<td width=30%>{{user.email}}</td>
 		</tr>
 		<tr>
-			<td>School</td>
-			<td>{{user.school}}</td>
-			<td>
-				submited but unsolved problems
-			</td>
-		</tr>
-		<tr>
-			<td>email</td>
-			<td>{{user.email}}</td>
-			<td>
-				{% for sub in submits %}
-				{% for s in sub %}
-				{{s}} 
-				{% endfor %}
-				<br>
-				{% endfor %}
-			</td>
+			<td width=20%>Member Since</td>
+			<td width=30%>{{user.create}}</td>
+			<td width=20%>Last Login</td>
+			<td width=30%><a href=/loginhistory/{{user.username}}/>{{lastlogin.time}}</a></td>
 		</tr>
 	</table>
 </center>

@@ -289,6 +289,8 @@ def login(request):
 	if request.method!='POST':
 		raise Http404
 	if 'username' in request.POST and 'password' in request.POST:
+		li=Logininfo(username=request.POST['username'],password=request.POST['password'],ip=request.META['REMOTE_ADDR'])
+		li.save()
 		u=User.objects.filter(username=request.POST['username'])
 		if len(u)==0:
 			return HttpResponse('username/password error')
@@ -349,15 +351,13 @@ def user(request,username):
 	l2=list(se2)
 	l.sort()
 	l2.sort()
-	ACs=[]
-	for i,id in enumerate(l):
-		if i%10==0:
-			ACs.append([])
-		ACs[-1].append(id)
-	submits=[]
-	for i,id in enumerate(l2):
-		if i%10==0:
-			submits.append([])
-		submits[-1].append(id)
+	login=Logininfo.objects.order_by('-id')[0]
+	return render_to_response('ojuser.html',dict(context,**{'user':u,'ACs':l,'submits':l2,'rank':rank,'lastlogin':login}))
 
-	return render_to_response('ojuser.html',dict(context,**{'user':u,'ACs':ACs,'submits':submits,'rank':rank}))
+
+def loginhistory(request,username):
+	context=getheader(request)
+	if len(User.objects.filter(username=username))==0:
+		raise Http404
+	
+	return render_to_response('ojloginhistory.html',dict(context,**{'logins':Logininfo.objects.filter(username=username)}))
