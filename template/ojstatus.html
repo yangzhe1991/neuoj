@@ -40,12 +40,12 @@
 	{% for s in status %}
 	<tr>
 		<td>{{s.id}}</td>
-		<td>{{s.user.username}}</td>
-		<td>{{s.problem.id}}</td>
+		<td><a href=/user/{{s.user.username}}/>{{s.user.username}}</a></td>
+		<td><a href=/problem/{{s.problem.id}}/>{{s.problem.id}}</a></td>
 		<td>{{s.result}}</td>
 		<td>{{s.memory}}</td>
 		<td>{{s.time}}</td>
-		<td><a href=/viewcode/{{s.id}}/ >{{s.lang}}</a></td>
+		<td>{% ifequal login.username s.user.username %}<a href=/viewcode/{{s.id}}/ >{{s.lang}}</a>{% else %}{{s.lang}}{% endifequal %}</td>
 		<td>{{s.sourcelong}}</td>
 		<td>{{s.create|date:"Y-m-d H:i:s"}}</td>
 	</tr>

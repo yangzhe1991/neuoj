@@ -265,10 +265,6 @@ def rank(request,cid):
 
 
 
-	
-
-
-
 def source(request,cid,sid):
 	cid=int(cid)
 	c=Contest.objects.get(id=cid)

@@ -1,0 +1,49 @@
+{% extends "ojbase.html" %}
+{% block title %}NEU django OJ{% endblock %}
+{% block middle %}
+<center>
+	<h2>{{user.username}}----{{user.nickname}}</h2>
+	<table width=700>
+		<tr>
+			<td width=15%>Rank</td>
+			<td width=25%>{{rank}}</td>
+			<td>solved problems</td>
+		</tr>
+		<tr>
+			<td>Sloved</td>
+			<td>{{user.AC}}</td>
+			<td>
+				{% for ac in ACs %}
+				{% for a in ac %}
+				{{a}} 
+				{% endfor %}
+				<br>
+				{% endfor %}
+			</td>
+		</tr>
+		<tr>
+			<td>Submitions</td>
+			<td>{{user.submit}}</td>
+		</tr>
+		<tr>
+			<td>School</td>
+			<td>{{user.school}}</td>
+			<td>
+				submited but unsolved problems
+			</td>
+		</tr>
+		<tr>
+			<td>email</td>
+			<td>{{user.email}}</td>
+			<td>
+				{% for sub in submits %}
+				{% for s in sub %}
+				{{s}} 
+				{% endfor %}
+				<br>
+				{% endfor %}
+			</td>
+		</tr>
+	</table>
+</center>
+{% endblock %}

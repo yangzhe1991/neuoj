@@ -63,6 +63,7 @@ def status(request):
 	if mc.get('results')!=None and len(mc.get('results'))>0:
 		ss=mc.get('results')
 		mc.delete('results')
+		submits=Submition.objects.all()
 		for s in ss:
 			if s[0]:
 				submit=ContestSubmition.objects.get(id=s[1])
@@ -76,6 +77,24 @@ def status(request):
 				submit.time=s[2][1]
 				submit.memory=s[2][2]
 			submit.save()
+			if submit.result=='AC':
+				if len(submits.filter(user=submit.user,result='AC'))==0:
+					submit.user.AC+=1
+					submit.user.save()
+				submit.problem.AC+=1
+			elif submit.result=='WA':
+				submit.problem.WA+=1
+			elif submit.result=='TLE':
+				submit.problem.TLE+=1
+			elif submit.result=='MLE':
+				submit.problem.MLE+=1
+			elif submit.result=='RE':
+				submit.problem.RE+=1
+			elif submit.result=='CE':
+				submit.problem.CE+=1
+			elif submit.result=='PE':
+				submit.problem.PE+=1
+			submit.problem.save()
 
 	context=getheader(request)
 	s=Submition.objects.order_by('-create')
@@ -305,5 +324,40 @@ def rank(request):
 def contest(request):
 	context=getheader(request)
 	c=Contest.objects.order_by('-start','-end')
-
 	return render_to_response('ojcontests.html',dict(context,**{'contests':c}))
+
+
+def user(request,username):
+	context=getheader(request)
+	users=User.objects.order_by('-AC','submit')
+	u=users.filter(username=username)
+	if len(u)==0:
+		raise Http404
+	users=list(users)
+	u=u[0]
+	rank=users.index(u)+1
+	se=set()
+	se2=set()
+	ss=Submition.objects.filter(user=u)
+	for s in ss:
+		if s.result=='AC':
+			se.add(s.problem.id)
+		else:
+			se2.add(s.problem.id)
+	l=list(se)
+	se2-=se
+	l2=list(se2)
+	l.sort()
+	l2.sort()
+	ACs=[]
+	for i,id in enumerate(l):
+		if i%10==0:
+			ACs.append([])
+		ACs[-1].append(id)
+	submits=[]
+	for i,id in enumerate(l2):
+		if i%10==0:
+			submits.append([])
+		submits[-1].append(id)
+
+	return render_to_response('ojuser.html',dict(context,**{'user':u,'ACs':ACs,'submits':submits,'rank':rank}))

@@ -21,6 +21,9 @@ urlpatterns = patterns('neuoj.oj.views',
 		url(r'^login/$','login'),
 		url(r'^logout/$','logout'),
 		url(r'^contest/(\d+)/.*login/$','login'),
+		url(r'^user/(.+)/$','user'),
+		url(r'^user/(.+)/edit/$','useredit'),
+		url(r'^register/$','register'),
 		
 		)
 

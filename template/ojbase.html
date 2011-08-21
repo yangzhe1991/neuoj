@@ -29,7 +29,7 @@
 				</td>
 				<td>
 					{% if login %}
-					{{login.username}}<br>
+					<a href=/user/{{login.username}}/>{{login.username}}</a><br>
 					{{login.AC}}/{{login.submit}}<br>
 					{% if login.isManager %}
 					<a href=/admin >Admin</a>
