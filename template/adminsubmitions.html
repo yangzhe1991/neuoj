@@ -1,0 +1,11 @@
+{% extends "adminbase.html" %}
+{% block title %}NEU django OJ{% endblock %}
+{% block middle %}
+rejudge :
+<form action=rejudge method=get>
+	problem ID(prior)<input type=text name=pid><br>
+	run ID)<input type=text name=runid><br>
+	contest run ID<input type=text name=crunid><br>
+	<input type=submit>
+</form>
+{% endblock %}
