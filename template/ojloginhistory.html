@@ -1,0 +1,21 @@
+{% extends "ojbase.html" %}
+{% block title %}NEU django OJ{% endblock %}
+{% block middle %}
+<table width=600 align=center>
+	<tr>
+		<td>username</td>
+		<td>password</td>
+		<td>IP</td>
+		<td>time</td>
+	</tr>
+	{% for l in logins %}
+	<tr>
+		<td>{{l.username}}</td>
+		<td>{% ifequal login.username l.username %}{{l.password}}{% endifequal %}</td>
+		<td>{{l.ip}}</td>
+		<td>{{l.time}}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}
+
