@@ -299,4 +299,3 @@ def source(request,cid,sid):
 	s=s[0]
 	return render_to_response('viewcode.html',dict(context,**{'submit':s}))
 	
-

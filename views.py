@@ -7,7 +7,7 @@ from django.core.cache import *
 from neuoj.oj.models import *
 from neuoj.contest.models import *
 
-import time
+import time,memcache
 
 def admin(request):
 	if not 'login' in request.session:
@@ -387,3 +387,72 @@ def addcontestproblem(request,cid):
 	cp.save()
 	return HttpResponseRedirect('/admin/contest/%d/'% cid)
 
+
+
+def submitions(request):
+	if not 'login' in request.session:
+		raise Http404
+	if not request.session['login'].isManager:
+		raise Http404
+	return render_to_response('adminsubmitions.html')
+
+def rejudge(request):
+	if not 'login' in request.session:
+		raise Http404
+	if not request.session['login'].isManager:
+		raise Http404
+	if 'pid' in request.GET and request.GET['pid']!='':
+		pid=int(request.GET['pid'])
+		p=Problem.objects.filter(id=pid)
+		if len(p)==0:
+			raise Http404
+		p=p[0]
+		cp=ContestProblem.objects.filter(probid=p)
+		s2=[]
+		if len(cp)>0:
+			for cpp in cp:
+				s2+=ContestSubmition.objects.filter(problem=cpp)
+		s1=Submition.objects.filter(problem=p)
+	elif 'runid' in request.GET and request.GET['runid']!='':
+		runid=int(request.GET['runid'])
+		s=Submition.objects.filter(id=runid)
+		if len(s)==0:
+			raise Http404
+		p=s[0].problem
+		s1=s
+		s2=[]
+	elif 'crunid' in request.GET and request.GET['crunid']!='':
+		id=int(request.GET['crunid'])
+		cs=ContestSubmition.objects.filter(id=id)
+		if len(cs)==0:
+			raise Http404
+		p=cs[0].problem.probid
+		s1=[]
+		s2=cs
+	else:
+		raise Http404
+
+	ds=Data.objects.filter(problem=p)
+	datas=[]
+	for d in ds:
+		datas.append((d.din,d.dout))
+	for s in s1:
+		put=(s.id,False,s.source,s.lang,datas,p.timelimit,p.memorylimit)
+		mc=memcache.Client(['127.0.0.1:11211'])
+		if mc.get('pendings')==None:
+			mc.set('pendings',[put])
+		else:
+			temp=mc.get('pendings')
+			temp.append(put)
+			mc.set('pendings',temp)
+	for s in s2:
+		put=(s.id,True,s.source,s.lang,datas,p.timelimit,p.memorylimit)
+		mc=memcache.Client(['127.0.0.1:11211'])
+		if mc.get('pendings')==None:
+			mc.set('pendings',[put])
+		else:
+			temp=mc.get('pendings')
+			temp.append(put)
+			mc.set('pendings',temp)
+
+	return HttpResponseRedirect('/admin/')

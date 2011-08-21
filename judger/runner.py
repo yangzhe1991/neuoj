@@ -89,7 +89,7 @@ def run(source,lang,indata,outdata,timelimit,memlimit):
 			return ('MLE',tt,mm)
 
 def submit(c,runid,result):
-	if mc.get('results')!=None and len(mc.get('result'))>0:
+	if mc.get('results')!=None and len(mc.get('results'))>0:
 		mcs=mc.get('results')
 	else:
 		mcs=[]
@@ -107,7 +107,7 @@ if __name__=='__main__':
 			temp=mc.get('pendings')
 			runid,c,source,lang,datas,timelimit,memlimit=temp.pop(0)
 			mc.set('pendings',temp)
-			print runid
+			print c,runid
 			result=('AC',0,0)
 			PE=False
 			for data in datas:
