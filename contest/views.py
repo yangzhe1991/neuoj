@@ -298,4 +298,11 @@ def source(request,cid,sid):
 		return HttpResponse(error)
 	s=s[0]
 	return render_to_response('viewcode.html',dict(context,**{'submit':s}))
+
+def background(request,cid):
+	cid=int(cid)
+	c=Contest.objects.get(id=cid)
+	
+		
+
 	

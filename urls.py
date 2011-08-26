@@ -36,6 +36,7 @@ urlpatterns+=patterns('neuoj.contest.views',
 		url(r'^contest/(\d+)/status/$','status'),
 		url(r'^contest/(\d+)/.*passwd/$','passwd'),
 		url(r'^contest/(\d+)/viewcode/(\d+)/$','source'),
+		url(r'^contest/(\d+)/background/$','background'),
 
 		)
 
