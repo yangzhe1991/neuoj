@@ -4,8 +4,8 @@
 <script type=text/javascript>
 	$(document).ready(function() {
 			$("#username").blur(function(){
-				var name=$(this).val();
-				if(name.indexOf(" ")==-1){
+				var name=$("#username").val();
+				if(name.indexOf(" ")==-1&&name!=""){
 				var url="ajaxname/?username="+name;
 				$.get(url,function(str){
 					if(str=="0")
@@ -17,28 +17,87 @@
 				$("#name").html("No space please");
 				});
 			$("#password").blur(function(){
-				if($(this).val()=="")
+				if($("#password").val()=="")
 				$("#pass").html("Can't be NULL");
 				else 
 				$("#pass").html("");
-
 				});
 
+			$("#school").blur(function(){
+					if($("#school").val()=="")
+					$("#ss").html("Can't be NULL");
+					else 
+					$("#ss").html("");
+					});
 
+			$("#nickname").blur(function(){
+					if($("#nickname").val()=="")
+					$("#nick").html("Can't be NULL");
+					else 
+					$("#nick").html("");
+					});
 			$("#repeat").blur(function(){
 					if($("#password").val()!=$("#repeat").val())
 					$("#pp").html("Presentation Error");
 					else 
 					$("#pp").html("");
 					});
+			$("#submit").click(function(){
+					var x=0;
+					var name=$("#username").val();
+					if(name.indexOf(" ")==-1&&name!=""){
+					var url="ajaxname/?username="+name;
+					$.get(url,function(str){
+						if(str=="0")
+						$("#name").html("You Can Register");
+						else $("#name").html("username exist!");
+						});
+					}
+					else
+					$("#name").html("No space please");
+
+					if($("#password").val()=="")
+					$("#pass").html("Can't be NULL");
+					else 
+					$("#pass").html("");
+
+					if($("#school").val()=="")
+					$("#ss").html("Can't be NULL");
+					else 
+						$("#ss").html("");
+
+					if($("#nickname").val()=="")
+						$("#nick").html("Can't be NULL");
+					else 
+						$("#nick").html("");
+
+					if($("#password").val()!=$("#repeat").val())
+						$("#pp").html("Presentation Error");
+					else 
+						$("#pp").html("");
+					$(".warning").each(function(){
+							if($(this).html()!="")
+							{
+							//alert($(this).html())
+							$(this).css("color","red");
+							x+=1;
+							}
+							});
+						if(x<=1)
+							$("#form").submit();
+			});
 	});
 </script>
 <center>
-	<form action=adduser type=post>
+	<form action=adduser method=post id=form>
 		<table>
-			<tr><td>username:<input type=text name=username id=username></td><td width=110 id=name></td></tr>
-			<tr><td>password:<input type=password name=password id=password></td><td id=pass> </td></tr>
-			<tr><td>twicepass:<input type=password name=repeat id=repeat></td><td id=pp></td></tr>
+			<tr><td>username:</td><td><input type=text name=username id=username></td><td width=110 id=name class=warning></td></tr>
+			<tr><td>password:</td><td><input type=password name=password id=password></td><td id=pass class=warning> </td></tr>
+			<tr><td>twicepass:</td><td><input type=password name=repeat id=repeat></td><td id=pp class=warning></td></tr>
+			<tr><td>nick name:</td><td><input type=text name=nickname id=nickname></td><td id=nick class=warning></td></tr>
+			<tr><td>email:</td><td><input type=text name=email id=email></td><td id=ee class=warning></td></tr>
+			<tr><td>school:</td><td><input type=text name=school id=school></td><td id=ss class=warning></td></tr>
+			<tr><td>blog/website:</td><td><input type=text name=wensite id=wensite></td><td id=site class=warning></td></tr>
 			<tr><td><a id=submit>Submit</a></td></tr>
 		</table>
 	</form>
