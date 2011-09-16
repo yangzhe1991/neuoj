@@ -1,0 +1,46 @@
+{% extends "ojbase.html" %}
+{% block title %}NEU django OJ{% endblock %}
+{% block middle %}
+<script type=text/javascript>
+	$(document).ready(function() {
+			$("#username").blur(function(){
+				var name=$(this).val();
+				if(name.indexOf(" ")==-1){
+				var url="ajaxname/?username="+name;
+				$.get(url,function(str){
+					if(str=="0")
+					$("#name").html("You Can Register");
+					else $("#name").html("username exist!");
+					});
+				}
+				else
+				$("#name").html("No space please");
+				});
+			$("#password").blur(function(){
+				if($(this).val()=="")
+				$("#pass").html("Can't be NULL");
+				else 
+				$("#pass").html("");
+
+				});
+
+
+			$("#repeat").blur(function(){
+					if($("#password").val()!=$("#repeat").val())
+					$("#pp").html("Presentation Error");
+					else 
+					$("#pp").html("");
+					});
+	});
+</script>
+<center>
+	<form action=adduser type=post>
+		<table>
+			<tr><td>username:<input type=text name=username id=username></td><td width=110 id=name></td></tr>
+			<tr><td>password:<input type=password name=password id=password></td><td id=pass> </td></tr>
+			<tr><td>twicepass:<input type=password name=repeat id=repeat></td><td id=pp></td></tr>
+			<tr><td><a id=submit>Submit</a></td></tr>
+		</table>
+	</form>
+</center>
+{% endblock %}
