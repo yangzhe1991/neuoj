@@ -7,7 +7,8 @@ global mc
 
 def run(source,lang,indata,outdata,timelimit,memlimit):
 	#print source
-	os.chdir('/home/godfather/judge/')
+	os.setuid(1937)
+	os.chdir('/home/judge/')
 	if lang=='JAVA':
 		timelimit*=3
 	cmd={}

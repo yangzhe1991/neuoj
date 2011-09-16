@@ -25,7 +25,8 @@ urlpatterns = patterns('neuoj.oj.views',
 		url(r'^user/(.+)/edit/$','useredit'),
 		url(r'^register/$','register'),
 		url(r'^loginhistory/(.+)/$','loginhistory'),
-		
+		url(r'^register/ajaxname/$','ajaxname'),
+			
 		)
 
 urlpatterns+=patterns('neuoj.contest.views',

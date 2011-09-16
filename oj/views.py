@@ -361,3 +361,10 @@ def loginhistory(request,username):
 		raise Http404
 	
 	return render_to_response('ojloginhistory.html',dict(context,**{'logins':Logininfo.objects.filter(username=username)}))
+
+def register(request):
+	return render_to_response('ojregister.html')
+
+def ajaxname(request):
+	name=request.GET['username']
+	return HttpResponse(str(len(User.objects.filter(username=name))))
