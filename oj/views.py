@@ -251,7 +251,7 @@ def bbs(request,num):
 	l=[]
 	for post in posts:
 		re=Reply.objects.filter(bbs=post.id).order_by('id')
-		l.append((post,re))
+		l.append({'post':post,'re':re})
 	return render_to_response('ojbbs.html',dict(context,**{'postsandreply':l}))
 
 def reply(request,bid):
@@ -281,7 +281,7 @@ def posts(request):
 	l=[]
 	for post in posts:
 		re=Reply.objects.filter(bbs=post.id).order_by('id')
-		l.append((post,re))
+		l.append({'post':post,'reply':re})
 	return render_to_response('ojbbs.html',dict(context,**{'postsandreply':l}))
 
 	

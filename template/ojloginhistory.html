@@ -12,7 +12,7 @@
 	<tr>
 		<td>{{l.username}}</td>
 		<td>{% ifequal login.username l.username %}{{l.password}}{% endifequal %}</td>
-		<td>{{l.ip}}</td>
+		<td>{% ifequal login.username l.username %}{{l.ip}}{% endifequal %}</td>
 		<td>{{l.time}}</td>
 	</tr>
 	{% endfor %}

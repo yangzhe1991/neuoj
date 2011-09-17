@@ -1,0 +1,44 @@
+{% extends "ojbase.html" %}
+{% block title %}NEU django OJ{% endblock %}
+{% block middle %}
+<script type=text/javascript>
+	$(document).ready(function() {
+			$("form").hide();
+			$("#new").click(function(){
+				$("p").html("<form method=post action='' id=newpost><textarea name=text cols=80 rows=10 id=text></textarea></form><input type=submit id=submit>");	
+				$("#submit").click(function(){
+					if($("#text").val().length<10)
+					alert("at least 10 bytes");
+					else 
+					$("#newpost").submit();
+					});
+				});
+			$("button.reply").click(function(){
+					$(this).next().show("slow")
+				});
+			});
+		</script>
+		<button id=new>new post</button>
+		<p></p>
+		<br><hr>
+		{% for single in postsandreply %}
+		<a href=/user/{{single.post.user.username}}/>{{single.post.user.username}}</a> {%if single.post.problem %}@ <a href=/problem/{{single.post.problem.id}}/>P{{single.post.problem.id}}</a>{% endif %} <br> {{single.post.time|date:"Nd Y H:i"}}<br>
+		<br>
+		{{single.post.text|linebreaksbr}}
+		<br>
+		<button class="reply" id="{{single.post.id}}" >reply</button>
+		<form method=post action=/bbs/{{single.post.id}}/reply id={{single.post.id}}>
+			<textarea name=text cols=80 rows=10 id=text></textarea><
+			<input type=submit id=submit>
+		</form>
+		<br>
+		{% for r in single.reply %}
+		<li>
+		<a href=/user/{{r.user.username}}/>{{r.user.username}}</a>{{single.post.time|date:"Nd Y H:i"}}<br>
+		{{r.text|linebreaksbr}}
+		</li>
+		{% endfor %}
+		<hr>
+		{% endfor %}
+
+		{% endblock %}
