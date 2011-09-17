@@ -26,6 +26,7 @@ urlpatterns = patterns('neuoj.oj.views',
 		url(r'^register/$','register'),
 		url(r'^loginhistory/(.+)/$','loginhistory'),
 		url(r'^register/ajaxname/$','ajaxname'),
+		url(r'^adduser/$','adduser'),
 			
 		)
 

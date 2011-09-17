@@ -50,29 +50,29 @@
 					$.get(url,function(str){
 						if(str=="0")
 						$("#name").html("You Can Register");
-						else $("#name").html("username exist!");
+						else {$("#name").html("username exist!");x=2;}
 						});
 					}
 					else
-					$("#name").html("No space please");
+					{$("#name").html("No space please");x=2;}
 
 					if($("#password").val()=="")
-					$("#pass").html("Can't be NULL");
+					{$("#pass").html("Can't be NULL");x=2;}
 					else 
 					$("#pass").html("");
 
 					if($("#school").val()=="")
-					$("#ss").html("Can't be NULL");
+					{$("#ss").html("Can't be NULL");x=2;}
 					else 
 						$("#ss").html("");
 
 					if($("#nickname").val()=="")
-						$("#nick").html("Can't be NULL");
+					{x=2;$("#nick").html("Can't be NULL");}
 					else 
 						$("#nick").html("");
 
 					if($("#password").val()!=$("#repeat").val())
-						$("#pp").html("Presentation Error");
+					{x=2;	$("#pp").html("Presentation Error");}
 					else 
 						$("#pp").html("");
 					$(".warning").each(function(){
@@ -83,13 +83,13 @@
 							x+=1;
 							}
 							});
-						if(x<=1)
-							$("#form").submit();
+					if(x<=1)
+						$("#form").submit();
 			});
 	});
 </script>
 <center>
-	<form action=adduser method=post id=form>
+	<form action=/adduser/ method=post id=form>
 		<table>
 			<tr><td>username:</td><td><input type=text name=username id=username></td><td width=110 id=name class=warning></td></tr>
 			<tr><td>password:</td><td><input type=password name=password id=password></td><td id=pass class=warning> </td></tr>
@@ -97,7 +97,7 @@
 			<tr><td>nick name:</td><td><input type=text name=nickname id=nickname></td><td id=nick class=warning></td></tr>
 			<tr><td>email:</td><td><input type=text name=email id=email></td><td id=ee class=warning></td></tr>
 			<tr><td>school:</td><td><input type=text name=school id=school></td><td id=ss class=warning></td></tr>
-			<tr><td>blog/website:</td><td><input type=text name=wensite id=wensite></td><td id=site class=warning></td></tr>
+			<tr><td>blog/website:</td><td><input type=text name=website id=website></td><td id=site class=warning></td></tr>
 			<tr><td><a id=submit>Submit</a></td></tr>
 		</table>
 	</form>

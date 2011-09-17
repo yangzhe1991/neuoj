@@ -368,3 +368,15 @@ def register(request):
 def ajaxname(request):
 	name=request.GET['username']
 	return HttpResponse(str(len(User.objects.filter(username=name))))
+
+def adduser(request):
+	if request.method!='POST':
+		raise Http404
+	u=User(username=request.POST['username'],password=request.POST['password'],nickname=request.POST['nickname'],isBoy=True,school=request.POST['school'])
+	if 'email' in request.POST:
+		u.email=request.POST['email']
+	if 'website' in request.POST:
+		u.website=request.POST['website']
+	u.save()
+	return HttpResponseRedirect('/')
+
