@@ -89,6 +89,3 @@ int LANG_CSC[256]={-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-
 
 
 #endif
-Show details
-©2011 Google - Terms - Privacy - Project Hosting Help
-Powered by Google Project Hosting 
