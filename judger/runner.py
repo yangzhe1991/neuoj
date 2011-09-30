@@ -7,7 +7,7 @@ global mc
 
 def run(source,lang,indata,outdata,timelimit,memlimit):
 	#print source
-	os.setuid(1937)
+	os.setuid(1536)
 	os.chdir('/home/judge/')
 	if lang=='JAVA':
 		timelimit*=3
@@ -16,78 +16,25 @@ def run(source,lang,indata,outdata,timelimit,memlimit):
 	fname['GCC']='Main.c'
 	fname['G++']='Main.cpp'
 	fname['JAVA']='Main.java'
-	f=file(fname[lang],'w')
+	f=file('run/'+fname[lang],'w')
 	f.write(source)
 	f.close()
-	cmd['GCC']='gcc -o Main Main.c'
-	cmd['G++']='g++ Main.cpp -o Main'
-	cmd['JAVA']='javac Main.java'
-	fd1=file('out.txt','w')
-	fd2=file('err.txt','w')
-	#print cmd[lang]
-	p=subprocess.Popen(shlex.split(cmd[lang]),stdout=fd1,stderr=fd2)
-	p.wait()
-	fd1.close()
+	fd2=file('run/data.in','w')
+	fd2.write(indata)
 	fd2.close()
-	if p.returncode!=0:
-		e=file('err.txt','r')
-		return ('CE',e.read())
-	cmd['GCC']='./Main'
-	cmd['G++']='./Main'
-	cmd['JAVA']='java Main'
-	returncode=0
-	fd0=file('in.txt','w')
-	fd0.write(indata)
-	fd0.close()
-	fd0=file('in.txt','r')
-	fd1=file('out.txt','w')
-	fd2=file('err.txt','w')
-	start=time.time()
-	p=subprocess.Popen(shlex.split(cmd[lang]),stdin=fd0,stdout=fd1,stderr=fd2)
-	mm=0
-	while True:
-		s=file('/proc/'+str(p.pid)+'/status','r').read()
-		if p.poll()!=None:
-			fd0.close()
-			fd1.close()
-			fd2.close()
-			fd1=file('out.txt','r')
-			fd2=file('err.txt','r')
-			if p.poll()!=0:
-				return ('RE',0,0)
-			out=fd1.read()
-			outdata=str(outdata).replace('\r','')
-			if len(out)==0:
-				return ('WA',tt,mm)
-			while out[-1]=='\n':
-				out=out[:-1]
-			while outdata[-1]=='\n':
-				outdata=outdata[:-1]
-			if out==outdata:
-				return ('AC',tt,mm)
-			else:
-				out=out.replace('\n','')
-				out=out.replace(' ','')
-				outdata=outdata.replace('\n','')
-				outdata=outdata.replace(' ','')
-				if out==outdata:
-					return ('PE',tt,mm)
-				return ('WA',tt,mm)
-		tt=time.time()-start
-		if tt>timelimit:
-			#os.kill(p.pid,9)
-			p.kill()
-			return ('TLE',tt,mm)
-		#print s
-		if s.find('RSS')<0:
-			continue
-		s=s[s.find('RSS')+6:]
-		s=s[:s.find('kB')-1]
-		mm=int(s)
-		if mm>memlimit:
-			#os.kill(pid,9)
-			p.kill()
-			return ('MLE',tt,mm)
+	fd3=file('run/data.out','w')
+	fd3.write(outdata)
+	fd3.close()
+	os.system('judger '+str(timelimit)+' '+str(memlimit)+' '+lang)
+	ff=file('run/ans','r')
+	res=ff.readlines()
+	os.system('rm run/*')
+	return res
+	
+
+
+
+
 
 def submit(c,runid,result):
 	if mc.get('results')!=None and len(mc.get('results'))>0:
