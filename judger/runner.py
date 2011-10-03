@@ -2,12 +2,12 @@
 import shlex,subprocess,os,time
 import memcache
 import MySQLdb
-
+import nocalls 
 global mc
 
 def run(source,lang,indata,outdata,timelimit,memlimit):
 	#print source
-	os.setuid(1937)
+	os.setuid(1536)
 	os.chdir('/home/judge/')
 	if lang=='JAVA':
 		timelimit*=3
@@ -19,8 +19,8 @@ def run(source,lang,indata,outdata,timelimit,memlimit):
 	f=file(fname[lang],'w')
 	f.write(source)
 	f.close()
-	cmd['GCC']='gcc -o Main Main.c'
-	cmd['G++']='g++ Main.cpp -o Main'
+	cmd['GCC']='gcc Main.c -o Main -O2 -std=c99'
+	cmd['G++']='g++ Main.cpp -o Main -O2'
 	cmd['JAVA']='javac Main.java'
 	fd1=file('out.txt','w')
 	fd2=file('err.txt','w')
@@ -97,46 +97,56 @@ def submit(c,runid,result):
 	mcs.append((c,runid,result))
 	mc.set('results',mcs)
 
+def testcode(s):
+	s=s.replace('\n','')
+	s=s.replace('','')
+	s=s.replace('\r','')
+	for nocall in nocalls:
+		if s.find(nocall)>=0:
+			return False
+	return True
 
 if __name__=='__main__':
 	mc=memcache.Client(['127.0.0.1:11211'])
 	while True:
 		conn=MySQLdb.connect(host='localhost',user='root',passwd='yangzhe1991',db='neuoj')
 		cursor=conn.cursor()
-
 		if mc.get('pendings')!=None and len(mc.get('pendings'))>0:
 			temp=mc.get('pendings')
 			runid,c,source,lang,datas,timelimit,memlimit=temp.pop(0)
-			mc.set('pendings',temp)
-			print c,runid
-			result=('AC',0,0)
-			PE=False
-			for data in datas:
-				re=run(source,lang,data[0],data[1],timelimit,memlimit)
-				if re[0]=='CE':
-					result=('CE',re[1])
-					break
-				elif re[0]=='RE':
-					result=re
-					break
-				elif re[0]=='WA':
-					result=re
-					break
-				elif re[0]=='TLE':
-					result=re
-					break
-				elif re[0]=='MLE':
-					result=re
-					break
-				elif re[0]=='PE':
-					PE=True
-			print re
-			if result[0]!='AC':
-				submit(c,runid,result)
-			elif PE:
-				submit(c,runid,('PE',re[1],re[2]))
+			if testcode(source):
+				mc.set('pendings',temp)
+				print c,runid
+				result=('AC',0,0)
+				PE=False
+				for data in datas:
+					re=run(source,lang,data[0],data[1],timelimit,memlimit)
+					if re[0]=='CE':
+						result=('CE',re[1])
+						break
+					elif re[0]=='RE':
+						result=re
+						break
+					elif re[0]=='WA':
+						result=re
+						break
+					elif re[0]=='TLE':
+						result=re
+						break
+					elif re[0]=='MLE':
+						result=re
+						break
+					elif re[0]=='PE':
+						PE=True
+				print re
+				if result[0]!='AC':
+					submit(c,runid,result)
+				elif PE:
+					submit(c,runid,('PE',re[1],re[2]))
+				else:
+					submit(c,runid,re)
 			else:
-				submit(c,runid,re)
+				submit(c,runid,('RF',0,0))#Restricted Function
 		conn.commit()
 		cursor.close()
 		conn.close()

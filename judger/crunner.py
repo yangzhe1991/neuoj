@@ -28,7 +28,7 @@ def run(source,lang,indata,outdata,timelimit,memlimit):
 	os.system('judger '+str(timelimit)+' '+str(memlimit)+' '+lang)
 	ff=file('run/ans','r')
 	res=ff.readlines()
-	os.system('rm run/*')
+	os.system('rm -rf run/*')
 	return res
 	
 
