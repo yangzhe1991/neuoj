@@ -101,8 +101,8 @@ def testcode(s):
 	s=s.replace('\n','')
 	s=s.replace('','')
 	s=s.replace('\r','')
-	for nocall in nocalls:
-		if s.find(nocall)>=0:
+	for nocall in nocalls.nocalls:
+		if s.find(nocall+'(')>=0:
 			return False
 	return True
 

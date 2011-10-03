@@ -1,4 +1,4 @@
-nocalls=list()
+nocalls=[]
 nocalls.append('fork')
 nocalls.append('clone')
 nocalls.append('execve')
@@ -19,7 +19,7 @@ nocalls.append('prctl')
 nocalls.append('sched_setparam')
 nocalls.append('capset')
 nocalls.append('setsid')
-nocalls.append('fcntl'
+nocalls.append('fcntl')
 nocalls.append('open')
 nocalls.append('creat')
 nocalls.append('read')

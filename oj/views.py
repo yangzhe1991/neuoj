@@ -73,7 +73,7 @@ def status(request):
 				submit.detail=s[2][1]
 				submit.time=submit.memory=0
 			else:
-				submit.time=s[2][1]
+				submit.time=s[2][1]*1000
 				submit.memory=s[2][2]
 			if submit.result=='AC':
 				if not s[0] and	len(Submition.objects.filter(user=submit.user,problem=submit.problem,result='AC'))==0:
