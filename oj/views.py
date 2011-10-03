@@ -254,18 +254,6 @@ def bbs(request,num):
 		l.append({'post':post,'re':re})
 	return render_to_response('ojbbs.html',dict(context,**{'postsandreply':l}))
 
-def reply(request,bid):
-	if request.method!='POST':
-		raise Http404
-	if not 'login' in request.session:
-		raise Http404
-	b=BBS.objects.filter(id=bid)
-	if len(b)==0:
-		raise Http404
-	r=Reply(bbs=b[0],user=request.session['login'],text=request.POST['text'])
-	r.save()
-	return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
-
 def posts(request):
 	context=getheader(request)
 	if request.method=='POST':
@@ -283,6 +271,18 @@ def posts(request):
 		re=Reply.objects.filter(bbs=post.id).order_by('id')
 		l.append({'post':post,'reply':re})
 	return render_to_response('ojbbs.html',dict(context,**{'postsandreply':l}))
+
+def reply(request,bid):
+	if request.method!='POST':
+		raise Http404
+	if not 'login' in request.session:
+		raise Http404
+	b=BBS.objects.filter(id=bid)
+	if len(b)==0:
+		raise Http404
+	r=Reply(bbs=b[0],user=request.session['login'],text=request.POST['text'])
+	r.save()
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
 
 	
 def login(request):
