@@ -69,7 +69,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-		'/home/godfather/git/neuoj/template/static',
+		'/home/godfather/code/git/neuoj/template/static',
 		# Put strings here, like "/home/html/static" or "C:/www/django/static".
 		# Always use forward slashes, even on Windows.
 		# Don't forget to use absolute paths, not relative paths.
@@ -108,7 +108,7 @@ TEMPLATE_DIRS = (
 		# Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
 		# Always use forward slashes, even on Windows.
 		# Don't forget to use absolute paths, not relative paths.
-		'/home/godfather/git/neuoj/template',
+		'/home/godfather/code/git/neuoj/template',
 		)
 
 INSTALLED_APPS = (
