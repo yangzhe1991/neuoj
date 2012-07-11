@@ -3,3 +3,4 @@ create database neuoj character set utf8;
 Author: Philo Yang "yangzhe1991"
 写于新东方GRE课……
 
+其实最终目标是搞一个完整解决方案……新闻发布、BBS、wiki、OJ都有的。。。。
