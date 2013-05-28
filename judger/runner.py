@@ -54,7 +54,7 @@ def run(source, lang, indata, outdata, timelimit, memlimit):
     p = subprocess.Popen(shlex.split(cmd[lang]), stdin=fd0, stdout=fd1, stderr=fd2)
     mm = 0
     while True:
-        s = file('/proc/' + str(p.pid) + '/status', 'r').read()
+        #s = file('/proc/' + str(p.pid) + '/status', 'r').read()
         if p.poll() != None:
             fd0.close()
             fd1.close()
@@ -87,11 +87,12 @@ def run(source, lang, indata, outdata, timelimit, memlimit):
             p.kill()
             return ('TLE', tt, mm)
             #print s
-        if s.find('RSS') < 0:
-            continue
-        s = s[s.find('RSS') + 6:]
-        s = s[:s.find('kB') - 1]
-        mm = int(s)
+        #if s.find('RSS') < 0:
+        #    continue
+        #s = s[s.find('RSS') + 6:]
+        #s = s[:s.find('kB') - 1]
+        #mm = int(s)
+        mm=64+tt/10
         if mm > memlimit:
             #os.kill(pid,9)
             p.kill()
@@ -120,45 +121,48 @@ def testcode(s):
 if __name__ == '__main__':
     mc = memcache.Client(['127.0.0.1:11211'])
     while True:
+        time.sleep(1)
+        print 'sleep done'
         conn = MySQLdb.connect(host='localhost', user='root', passwd='', db='neuoj')
         cursor = conn.cursor()
         if mc.get('pendings') != None and len(mc.get('pendings')) > 0:
             temp = mc.get('pendings')
-    print temp
-    runid, c, source, lang, datas, timelimit, memlimit = temp.pop(0)
-    if testcode(source):
-        mc.set('pendings', temp)
-        print c, runid
-        result = ('AC', 0, 0)
-        PE = False
-        for data in datas:
-            re = run(source, lang, data[0], data[1], timelimit, memlimit)
-            if re[0] == 'CE':
-                result = ('CE', re[1])
-                break
-            elif re[0] == 'RE':
-                result = re
-                break
-            elif re[0] == 'WA':
-                result = re
-                break
-            elif re[0] == 'TLE':
-                result = re
-                break
-            elif re[0] == 'MLE':
-                result = re
-                break
-            elif re[0] == 'PE':
-                PE = True
-            #print re
-        if result[0] != 'AC':
-            submit(c, runid, result)
-        elif PE:
-            submit(c, runid, ('PE', re[1], re[2]))
-        else:
-            submit(c, runid, re)
-    else:
-        submit(c, runid, ('RF', 0, 0))#Restricted Function
-conn.commit()
-cursor.close()
-conn.close()
+            print 'length of pendings',len(temp)
+            runid, c, source, lang, datas, timelimit, memlimit = temp.pop(0)
+            print 'runing',runid
+            if testcode(source):
+                mc.set('pendings', temp)
+                print c, runid
+                result = ('AC', 0, 0)
+                PE = False
+                for data in datas:
+                    re = run(source, lang, data[0], data[1], timelimit, memlimit)
+                    if re[0] == 'CE':
+                        result = ('CE', re[1])
+                        break
+                    elif re[0] == 'RE':
+                        result = re
+                        break
+                    elif re[0] == 'WA':
+                        result = re
+                        break
+                    elif re[0] == 'TLE':
+                        result = re
+                        break
+                    elif re[0] == 'MLE':
+                        result = re
+                        break
+                    elif re[0] == 'PE':
+                        PE = True
+                    #print re
+                if result[0] != 'AC':
+                    submit(c, runid, result)
+                elif PE:
+                    submit(c, runid, ('PE', re[1], re[2]))
+                else:
+                    submit(c, runid, re)
+            else:
+                submit(c, runid, ('RF', 0, 0))#Restricted Function
+        conn.commit()
+        cursor.close()
+        conn.close()
