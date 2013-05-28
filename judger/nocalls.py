@@ -1,4 +1,4 @@
-nocalls=[]
+nocalls = []
 nocalls.append('fork')
 nocalls.append('clone')
 nocalls.append('execve')
