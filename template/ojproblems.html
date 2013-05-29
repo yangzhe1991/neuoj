@@ -3,7 +3,21 @@
 {% block middle %}
 {% for problem in problems %}
 {% if problem.visible %}
-<li>{{problem.id}}<a href=/problem/{{problem.id}} >{{problem.title}}</a>||{{problem.AC}}/{{problem.submit}}</li>
+    <table class="table table-hover">
+<tr>
+    <th>Problem id</th>
+    <th>Problem Name</th>
+    <th>Number of ACs</th>
+    <th>Number of Submits</th>
+</tr>
+<tr>
+    <td>{{problem.id}}</td>
+    <td><a href=/problem/{{problem.id}} >{{problem.title}}</a></td>
+    <td>{{problem.AC}}</td>
+    <td>{{problem.submit}}</td>
+</tr>
+    </table>
+
 {% endif %}
 {% endfor %}
 {% endblock %}

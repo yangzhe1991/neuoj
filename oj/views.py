@@ -3,15 +3,10 @@
 #
 # Author: Philo Yang "yangzhe1991"
 #
-from datetime import *
-import time
 
-from django.template import *
+import time
 from django.http import *
-from django.core.context_processors import *
 from django.shortcuts import render_to_response
-from django.core.cache import *
-from django.core.cache import cache
 import memcache
 
 from neuoj.oj.models import *
@@ -48,8 +43,6 @@ def problems(request):
 
 def problemlist(request, vol):
     context = getheader(request)
-    #p=Problem(title='测试',text='ads',samplein='所撕碎',sampleout='asd',timelimit=1000,memorylimit=64)
-    #p.save()
     vol = int(vol)
     probs = Problem.objects.order_by('id')
     if (vol - 1) * 100 + 1 > len(probs):
@@ -268,7 +261,7 @@ def bbs(request, num):
     l = []
     for post in posts:
         re = Reply.objects.filter(bbs=post.id).order_by('id')
-        l.append({'post': post, 're': re})
+        l.append({'post': post, 'reply': re})
     return render_to_response('ojbbs.html', dict(context, **{'postsandreply': l}))
 
 

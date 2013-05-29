@@ -1,6 +1,8 @@
+
+sudo /usr/local/mysql/bin/mysqld_safe
+memcached -d -m 64 -l 127.0.0.1 -p 11211
 create database neuoj character set utf8;
 
 Author: Philo Yang "yangzhe1991"
-写于新东方GRE课……
+项目起始于新东方GRE课，为了毕业设计而完善
 
-其实最终目标是搞一个完整解决方案……新闻发布、BBS、wiki、OJ都有的。。。。

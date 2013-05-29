@@ -22,9 +22,8 @@
 		{% if contestlogin %}
 		{% if needpassword %}
 		<form method=post action=passwd/ align=center>
-			<input type=password>
-			<input type=submit>
-			<input type=reset>
+			<input name=password type=password />
+			<input type=submit />
 		</form>
 		{% else %}
 		{% block middle %}
@@ -32,14 +31,14 @@
 		{% endif %}
 		{% else %}
 		{% ifequal contest.isPublic 2 %}
-		<form method=post action=contestlogin/ align=center>
+		<form method=post action="contestlogin/" align=center>
 			username:<input type=username><br>
 			password:<input type=password><br>
 			<input type=submit>
 			<input type=reset>
 		</form>
 		{% else %}
-		<form method=post action=login/ align=center>
+		<form method=post action="login/" align=center>
 			username:<input type=username><br>
 			password:<input type=password><br>
 			<input type=submit>
@@ -49,8 +48,8 @@
 		{% endif %}
 		{% endblock %}
 		this is footer<br>
-		<a href=/ >HOME</a><br>
-		<a href=/userguide >USER GUIDE</a><br>
+		<a href="/" >HOME</a><br>
+		<a href="/userguide" >USER GUIDE</a><br>
 
 
 	</body>

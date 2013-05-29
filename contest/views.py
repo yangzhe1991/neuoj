@@ -4,19 +4,14 @@
 #
 
 import time
-import datetime
-from operator import itemgetter, attrgetter
+from operator import itemgetter
 
-from django.template import *
 from django.http import *
-from django.core.context_processors import *
 from django.shortcuts import render_to_response
-from django.core.cache import *
 from django.db.models import F
 import memcache
 
 from neuoj.contest.models import *
-from neuoj.oj.models import *
 
 
 def getheader(request, con):
