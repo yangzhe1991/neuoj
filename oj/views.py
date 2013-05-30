@@ -24,6 +24,13 @@ def getheader(request):
 
 
 def index(request):
+
+    news = News.objects.order_by('-time')
+    if len(news)<2:
+        n=News(title='通知', text='请参加省赛的同学与周日下午在机房开会')
+        n.save()
+        n=News(title='asdasd sda ', text='qqqaazxcsd<br>asd\nasd')
+        n.save()
     news = News.objects.order_by('-time')
     u = User.objects.all()
     if len(u) == 0:
@@ -34,6 +41,7 @@ def index(request):
     l = len(news)
     if l > 5:
         news = news[0:4]
+
     return render_to_response('ojindex.html', dict(context, **{'news': news}))
 
 
@@ -175,7 +183,7 @@ def upload(request, num):
     context = getheader(request)
     if not 'login' in request.session:
         error = "please login first"
-        return render_to_response('oj.html', dict(context, **{'error': error}))
+        return render_to_response('ojstatus.html', dict(context, **{'error': error}))
     p = int(num)
     p = Problem.objects.filter(id=p)
     if len(p) == 0:

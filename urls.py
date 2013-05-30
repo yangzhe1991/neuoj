@@ -64,7 +64,7 @@ urlpatterns+=patterns('neuoj.views',
 		url(r'^admin/data/(\d+)/edit/$','editdata'),
 		url(r'^admin/data/(\d+)/edit/delete/$','deletedata'),
 		url(r'^admin/problem/(\d+)/data/add/$','adddata'),
-
+        url(r'^admin/news/$','news'),
 		)
 
 #need cache

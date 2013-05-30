@@ -1,6 +1,4 @@
-{% extends "adminbase.html" %}
-{% block title %}NEU django OJ{% endblock %}
-{% block middle %}
+
 <form action="" method=post >
 	title <input type=text name=title value={{problem.title}} ><br>
 	time<input type=text name=time value=1 value={{problem.timelimit}} >second<br>
@@ -12,6 +10,5 @@
 	sampleout<br><textarea rows=20 cols=80 name=sampleout >{{problem.sampleout}}</textarea><br>
 	hint<br><textarea rows=10 cols=80 name=hint >{{problem.hint}}</textarea><br>
 	source<br><textarea rows=5 cols=80 name=hint >{{problem.source}}</textarea><br>
-	<input type=submit>
+	<input type=submit />
 </form>
-{% endblock %}
