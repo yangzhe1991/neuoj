@@ -11,11 +11,9 @@
 	<body>
 		<table align=center width=100%>
 			<tr>
-				<td width=20% ><a href=bbs >Q&A</a></td>
 				<td width=20% ><a href=/contest/{{contest.id}} >PROBLEMS</a></td>
 				<td width=20% ><a href=/contest/{{contest.id}}/ranklist >RANKLIST</a></td>
 				<td width=20% ><a href=/contest/{{contest.id}}/status >SUBMITIONS</a></td>
-				<td width=20% ><a href=/contest/{{contest.id}}/print/ >PRINT</a></td>
 			</tr>
 		</table>
 		{% block login %}
@@ -47,9 +45,6 @@
 		{% endifequal %}
 		{% endif %}
 		{% endblock %}
-		this is footer<br>
-		<a href="/" >HOME</a><br>
-		<a href="/userguide" >USER GUIDE</a><br>
 
 
 	</body>
